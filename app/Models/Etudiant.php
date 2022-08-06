@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Classe;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Etudiant extends Model
 {  
-    protected $fillabe = ['nom','prenom','classe_id'];
+    protected $fillable = ['nom','prenom','classe_id'];
     use HasFactory;
     public function classe(){
         return $this->belongsTo(Classe::class); 

@@ -21,6 +21,12 @@ class EtudiantController extends Controller
         return view('createEtudiant', compact('classes')); 
     }
 
+    public function edit(Etudiant $etudiant){
+        $classes = Classe::all();
+     
+        return view('editEtudiant', compact('etudiant','classes')); 
+    }
+
     public function store(Request $request){
          
          $request->validate([
@@ -30,10 +36,44 @@ class EtudiantController extends Controller
 
          ]);
          
-         Etudiant::create($request->all());
+         Etudiant::create([
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'classe_id' => $request->classe_id
+         ]);
 
          return back()->with('success','Etudiant ajoute avec success ');
 
     }
+
+    public function delete(Etudiant $etudiant){
+        $nomComplet = $etudiant->nom.' '.$etudiant->prenom;
+       
+        $etudiant->delete();
+        return back()->with('successDelete' , 'l\'etudiant '. $nomComplet.' supprime ave succes');
+
+    }
+
+
+
+    public function update(Request $request , Etudiant $etudiant){
+         
+        $request->validate([
+           'nom' => 'required',
+           'prenom' => 'required',
+           'classe_id' => 'required',
+
+        ]);
+        
+        $etudiant->update([
+           'nom' => $request->nom,
+           'prenom' => $request->prenom,
+           'classe_id' => $request->classe_id
+        ]);
+
+        return back()->with('successUpdate','Etudiant mise a jour avec success ');
+
+   }
+    
     
 }
